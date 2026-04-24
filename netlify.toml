@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+
+# Pretty URLs: /booking → /booking/index.html, no trailing slash needed
+[build.processing]
+  pretty_urls = true
+
+# Forms are enabled by default when a <form netlify> is detected.
+# Amy gets email notifications via Netlify site settings → Forms → Notifications.
