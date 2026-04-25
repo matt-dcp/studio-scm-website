@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio SCM · Client Intake & Travel Profile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0e14;
+    color: #e8e2d4;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 60px 48px 80px; }
+
+  .confidential-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0; margin-bottom: 32px;
+    border-bottom: 0.5px solid #1a1810;
+  }
+  .conf-label { font-size: 8px; letter-spacing: 0.24em; text-transform: uppercase; color: #4a4438; }
+
+  .title-block { margin-bottom: 52px; }
+  .studio-tag { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #b8a98a; font-weight: 400; margin-bottom: 12px; }
+  .main-title { font-family: 'Cormorant Garamond', serif; font-size: 46px; font-weight: 300; line-height: 1.1; color: #f2ece0; letter-spacing: -0.01em; }
+  .main-title em { font-style: italic; color: #c9b98a; }
+  .subtitle { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #7a7060; margin-top: 14px; }
+
+  .progress-strip { height: 2px; background: #1a1810; margin-bottom: 56px; }
+  .progress-fill { height: 100%; background: #b8a98a; width: 0%; transition: width 0.4s ease; }
+
+  .section { margin-bottom: 52px; }
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding-bottom: 12px; border-bottom: 0.5px solid #2a2820; }
+  .section-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: #b8a98a; line-height: 1; min-width: 28px; }
+  .section-title { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #b8a98a; font-weight: 400; }
+
+  /* Checklist */
+  .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .check-item { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border: 0.5px solid #2a2820; cursor: pointer; transition: border-color 0.2s, background 0.2s; user-select: none; }
+  .check-item:hover { border-color: #4a4030; background: #0f1219; }
+  .check-item.checked { border-color: #b8a98a; background: #0f1219; }
+  .check-box { width: 16px; height: 16px; border: 0.5px solid #4a4030; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; }
+  .check-item.checked .check-box { border-color: #b8a98a; background: #b8a98a; }
+  .check-mark { display: none; width: 8px; height: 5px; border-left: 1.5px solid #0a0e14; border-bottom: 1.5px solid #0a0e14; transform: rotate(-45deg) translateY(-1px); }
+  .check-item.checked .check-mark { display: block; }
+  .check-label { font-size: 12px; color: #c8c0b0; letter-spacing: 0.04em; }
+  .check-item.checked .check-label { color: #e8e2d4; }
+
+  /* Fields */
+  .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field.span2 { grid-column: span 2; }
+  .field-label { font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #7a7060; font-weight: 400; }
+  .field-label .req { color: #b8a98a; margin-left: 2px; }
+  .field input, .field textarea, .field select {
+    background: transparent; border: none; border-bottom: 0.5px solid #2a2820;
+    color: #e8e2d4; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 13px;
+    padding: 8px 0; outline: none; transition: border-color 0.2s; letter-spacing: 0.02em; width: 100%;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: #3a3830; }
+  .field input:focus, .field textarea:focus { border-bottom-color: #b8a98a; }
+  .field textarea { resize: vertical; min-height: 70px; line-height: 1.6; }
+
+  .divider { height: 0.5px; background: #1a1810; margin: 40px 0; }
+
+  /* Payment */
+  .cc-block { border: 0.5px solid #2a2820; background: #0c1018; overflow: hidden; }
+  .cc-top { display: flex; align-items: center; gap: 16px; padding: 20px 24px; border-bottom: 0.5px solid #1a1810; }
+  .cc-icon { width: 36px; height: 24px; border: 0.5px solid #3a3428; border-radius: 2px; background: #1a1610; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .cc-dot { width: 8px; height: 8px; border-radius: 50%; background: #b8a98a; opacity: 0.6; margin-right: -4px; }
+  .cc-dot2 { width: 8px; height: 8px; border-radius: 50%; background: #7a7060; }
+  .cc-info { flex: 1; }
+  .cc-info-title { font-size: 12px; color: #c8c0b0; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .cc-info-sub { font-size: 10px; color: #4a4438; letter-spacing: 0.06em; }
+  .cc-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #b8a98a; color: #0a0e14; font-family: 'Jost', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
+  .cc-btn:hover { background: #c8b99a; }
+  .cc-arrow { width: 10px; height: 10px; border-top: 1.5px solid #0a0e14; border-right: 1.5px solid #0a0e14; transform: rotate(45deg); display: inline-block; flex-shrink: 0; }
+  .cc-bottom { padding: 14px 24px; display: flex; align-items: center; gap: 10px; }
+  .cc-secure-note { font-size: 10px; color: #3a3428; letter-spacing: 0.06em; line-height: 1.6; }
+
+  /* Passport upload */
+  .passport-upload { border: 0.5px dashed #2a2820; padding: 28px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+  .passport-upload:hover { border-color: #4a4030; }
+  .upload-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5a5448; display: block; margin-bottom: 6px; margin-top: 10px; }
+  .upload-sub { font-size: 10px; color: #3a3428; letter-spacing: 0.04em; }
+  .passport-upload input[type="file"] { display: none; }
+
+  /* Countries */
+  .countries-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; min-height: 10px; }
+  .country-tag { padding: 4px 12px; border: 0.5px solid #2a2820; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7060; display: flex; align-items: center; gap: 8px; }
+  .country-tag .remove { cursor: pointer; color: #4a4438; font-size: 16px; line-height: 1; }
+  .country-tag .remove:hover { color: #b8a98a; }
+  .add-country { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+  .add-country input { background: transparent; border: none; border-bottom: 0.5px solid #2a2820; color: #e8e2d4; font-family: 'Jost', sans-serif; font-size: 12px; padding: 6px 0; outline: none; flex: 1; letter-spacing: 0.04em; }
+  .add-country input:focus { border-bottom-color: #b8a98a; }
+  .add-country input::placeholder { color: #3a3428; }
+  .add-btn { font-size: 22px; color: #4a4438; cursor: pointer; border: none; background: none; line-height: 1; padding: 0 4px; }
+  .add-btn:hover { color: #b8a98a; }
+  .hotel-field { margin-bottom: 10px; }
+
+  /* Travel preference cards */
+  .travel-card { border: 0.5px solid #1e1c18; padding: 20px 24px; margin-bottom: 12px; background: #0c1018; }
+  .travel-q { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 300; color: #9a9080; letter-spacing: 0.04em; margin-bottom: 12px; font-style: italic; }
+  .travel-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .t-opt { padding: 5px 14px; border: 0.5px solid #2a2820; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #7a7060; cursor: pointer; transition: all 0.2s; user-select: none; }
+  .t-opt:hover { border-color: #4a4030; color: #b8a98a; }
+  .t-opt.selected { border-color: #b8a98a; color: #b8a98a; background: rgba(184,169,138,0.06); }
+
+  /* Submit */
+  .submit-row { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-top: 32px; border-top: 0.5px solid #2a2820; margin-top: 48px; }
+  .submit-note { font-size: 10px; color: #4a4438; letter-spacing: 0.08em; max-width: 340px; line-height: 1.8; }
+  .submit-btn { font-family: 'Jost', sans-serif; font-weight: 400; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #0a0e14; background: #b8a98a; border: none; padding: 16px 40px; cursor: pointer; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
+  .submit-btn:hover { background: #c8b99a; }
+  .submit-btn:disabled { background: #3a3428; color: #5a5448; cursor: default; }
+
+  /* Success state */
+  .success-screen { display: none; text-align: center; padding: 80px 40px; }
+  .success-screen.visible { display: block; }
+  .success-icon { font-size: 48px; margin-bottom: 24px; }
+  .success-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: #f2ece0; margin-bottom: 12px; }
+  .success-sub { font-size: 11px; color: #7a7060; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* Error banner */
+  .error-banner { display: none; background: rgba(180,60,60,0.12); border: 0.5px solid #7a3030; color: #d47070; font-size: 11px; letter-spacing: 0.06em; padding: 12px 18px; margin-top: 16px; }
+  .error-banner.visible { display: block; }
+
+  @media (max-width: 640px) {
+    .page { padding: 32px 24px 60px; }
+    .checklist-grid { grid-template-columns: 1fr; }
+    .fields-grid { grid-template-columns: 1fr; }
+    .field.span2 { grid-column: span 1; }
+    .main-title { font-size: 34px; }
+    .submit-row { flex-direction: column; align-items: flex-start; }
+    .cc-top { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div id="formSection">
+
+    <div class="confidential-bar">
+      <span class="conf-label">Confidential · Client Intake</span>
+      <span class="conf-label">Studio SCM · Talent Management</span>
+    </div>
+
+    <div class="title-block">
+      <div class="studio-tag">Studio SCM · New Client Onboarding</div>
+      <div class="main-title">Client <em>Intake</em><br>&amp; Travel Profile</div>
+      <div class="subtitle">Talent Management · Confidential Document</div>
+    </div>
+
+    <div class="progress-strip"><div class="progress-fill" id="progressFill"></div></div>
+
+    <!-- 01 CHECKLIST -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <div class="section-title">Onboarding Checklist</div>
+      </div>
+      <div class="checklist-grid">
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><div class="check-mark"></div></div><span class="check-label">Passport copy received</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><div class="check-mark"></div></div><span class="check-label">Contact details confirmed</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><div class="check-mark"></div></div><span class="check-label">Business address on file</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><div class="check-mark"></div></div><span class="check-label">Credit card on file</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><div class="check-mark"></div></div><span class="check-label">Travel history reviewed</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><div class="check-mark"></div></div><span class="check-label">Hotel preferences noted</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><div class="check-mark"></div></div><span class="check-label">Travel preferences documented</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><div class="check-mark"></div></div><span class="check-label">Talent manager intro complete</span></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 02 CONTACT -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <div class="section-title">Contact Information</div>
+      </div>
+      <div class="fields-grid">
+        <div class="field"><div class="field-label">Legal First Name <span class="req">*</span></div><input type="text" name="first_name" placeholder="As it appears on passport" required></div>
+        <div class="field"><div class="field-label">Legal Last Name <span class="req">*</span></div><input type="text" name="last_name" placeholder="As it appears on passport" required></div>
+        <div class="field"><div class="field-label">Preferred / Stage Name</div><input type="text" name="preferred_name" placeholder="If different from legal name"></div>
+        <div class="field"><div class="field-label">Date of Birth <span class="req">*</span></div><input type="text" name="dob" placeholder="MM / DD / YYYY" required></div>
+        <div class="field"><div class="field-label">Best Mobile Number <span class="req">*</span></div><input type="tel" name="phone_primary" placeholder="+1 (   )  —  " required></div>
+        <div class="field"><div class="field-label">Secondary / Assistant Number</div><input type="tel" name="phone_secondary" placeholder="+1 (   )  —  "></div>
+        <div class="field span2"><div class="field-label">Primary Email Address <span class="req">*</span></div><input type="email" name="email" placeholder="your@email.com" required></div>
+        <div class="field span2"><div class="field-label">Business Address (Preferred) <span class="req">*</span></div><input type="text" name="address_business" placeholder="Street address, Suite / Floor" required></div>
+        <div class="field"><div class="field-label">City</div><input type="text" name="address_city" placeholder=""></div>
+        <div class="field"><div class="field-label">State · Postal Code</div><input type="text" name="address_state_zip" placeholder="CA · 90210"></div>
+        <div class="field span2"><div class="field-label">Personal / Residential Address (if different)</div><input type="text" name="address_personal" placeholder="Leave blank if same as above"></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 03 PASSPORT -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <div class="section-title">Passport &amp; Identity Documents</div>
+      </div>
+      <div class="fields-grid" style="margin-bottom: 24px;">
+        <div class="field"><div class="field-label">Passport Number <span class="req">*</span></div><input type="text" name="passport_number" placeholder="As it appears on document" required></div>
+        <div class="field"><div class="field-label">Passport Expiration Date <span class="req">*</span></div><input type="text" name="passport_expiry" placeholder="MM / YYYY" required></div>
+        <div class="field"><div class="field-label">Country of Issue <span class="req">*</span></div><input type="text" name="passport_country" placeholder="United States" required></div>
+        <div class="field"><div class="field-label">Nationality</div><input type="text" name="nationality" placeholder=""></div>
+        <div class="field"><div class="field-label">Known Traveler Number (TSA Pre✓)</div><input type="text" name="ktn" placeholder=""></div>
+        <div class="field"><div class="field-label">Global Entry / NEXUS Number</div><input type="text" name="global_entry" placeholder=""></div>
+      </div>
+
+      <label class="passport-upload" id="uploadZone">
+        <input type="file" id="passportFile" name="passport_file" accept=".jpg,.jpeg,.png,.pdf" onchange="handleFileSelect(this)">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.4; margin: 0 auto; display: block;">
+          <rect x="3" y="6" width="22" height="16" rx="1" stroke="#b8a98a" stroke-width="0.75"/>
+          <line x1="14" y1="10" x2="14" y2="18" stroke="#b8a98a" stroke-width="0.75"/>
+          <polyline points="10,13 14,9 18,13" stroke="#b8a98a" stroke-width="0.75" fill="none"/>
+        </svg>
+        <span class="upload-label" id="uploadLabel">Upload Passport Copy</span>
+        <span class="upload-sub">JPEG · PDF · PNG — click to browse</span>
+      </label>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 04 PAYMENT -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <div class="section-title">Payment on File</div>
+      </div>
+
+      <div class="cc-block">
+        <div class="cc-top">
+          <div class="cc-icon">
+            <div class="cc-dot"></div>
+            <div class="cc-dot2"></div>
+          </div>
+          <div class="cc-info">
+            <div class="cc-info-title">Securely add a card on file</div>
+            <div class="cc-info-sub">Processed via TripSuite · Encrypted · Never stored in this form</div>
+          </div>
+          <a class="cc-btn" href="https://app.tripsuite.com/public/clients/b8e53a6a-65d3-44a4-b1b5-7749fac20e9f/card?name=Natalie%20S" target="_blank" rel="noopener noreferrer">
+            Add Card <span class="cc-arrow"></span>
+          </a>
+        </div>
+        <div class="cc-bottom">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.35; flex-shrink:0;">
+            <rect x="1.5" y="5" width="9" height="6.5" rx="1" stroke="#b8a98a" stroke-width="0.75"/>
+            <path d="M3.5 5V3.5a2.5 2.5 0 0 1 5 0V5" stroke="#b8a98a" stroke-width="0.75"/>
+          </svg>
+          <span class="cc-secure-note">Your card details are collected and stored securely by TripSuite. Studio SCM does not have access to your full card number.</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <div class="field">
+          <div class="field-label">Cardholder Name (for reference only)</div>
+          <input type="text" name="cardholder_name" placeholder="Name as it appears on card">
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 05 TRAVEL HISTORY -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <div class="section-title">Recent Travel History</div>
+      </div>
+
+      <div style="margin-bottom: 32px;">
+        <div class="field-label" style="margin-bottom: 14px;">Countries visited in the last 24 months <span class="req">*</span></div>
+        <div class="countries-row" id="countryTags"></div>
+        <div class="add-country">
+          <input type="text" id="countryInput" placeholder="Type a country and press enter…" onkeydown="addCountryOnEnter(event)">
+          <button type="button" class="add-btn" onclick="addCountry()">+</button>
+        </div>
+        <input type="hidden" name="countries_visited" id="countriesHidden">
+      </div>
+
+      <div>
+        <div class="field-label" style="margin-bottom: 14px;">Hotels / properties stayed at recently</div>
+        <div id="hotelFields">
+          <div class="hotel-field field"><input type="text" name="hotel_1" placeholder="Hotel name · City · Country"></div>
+          <div class="hotel-field field"><input type="text" name="hotel_2" placeholder="Hotel name · City · Country"></div>
+          <div class="hotel-field field"><input type="text" name="hotel_3" placeholder="Hotel name · City · Country"></div>
+        </div>
+        <div style="margin-top: 10px; font-size: 10px; color: #4a4438; cursor: pointer; letter-spacing: 0.1em;" onclick="addHotelField()">+ Add another property</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 06 TRAVEL PREFERENCES -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <div class="section-title">Travel Preferences &amp; Profile</div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">How do you typically prefer to fly?</div>
+        <div class="travel-options" data-field="flight_class">
+          <div class="t-opt" onclick="toggleOpt(this)">Economy</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Premium Economy</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Business Class</div>
+          <div class="t-opt" onclick="toggleOpt(this)">First Class</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Private Charter</div>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">Do you have a preferred airline or alliance?</div>
+        <div class="travel-options" data-field="airline_pref">
+          <div class="t-opt" onclick="toggleOpt(this)">American / Oneworld</div>
+          <div class="t-opt" onclick="toggleOpt(this)">United / Star Alliance</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Delta / SkyTeam</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Southwest</div>
+          <div class="t-opt" onclick="toggleOpt(this)">International carrier</div>
+          <div class="t-opt" onclick="toggleOpt(this)">No preference</div>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">What type of accommodations do you prefer?</div>
+        <div class="travel-options" data-field="hotel_type">
+          <div class="t-opt" onclick="toggleOpt(this)">Boutique / Design hotels</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Luxury resort collection</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Business / City hotel</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Private villa / rental</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Wellness / Spa retreat</div>
+          <div class="t-opt" onclick="toggleOpt(this)">No strong preference</div>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">What are your room preferences?</div>
+        <div class="travel-options" data-field="room_pref">
+          <div class="t-opt" onclick="toggleOpt(this)">High floor</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Away from elevator</div>
+          <div class="t-opt" onclick="toggleOpt(this)">King bed always</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Suite preferred</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Connecting room option</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Hypoallergenic room</div>
+          <div class="t-opt" onclick="toggleOpt(this)">City view</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Quiet room</div>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">Any dietary restrictions or preferences?</div>
+        <div class="travel-options" data-field="dietary">
+          <div class="t-opt" onclick="toggleOpt(this)">No restrictions</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Vegetarian</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Vegan</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Gluten-free</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Kosher</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Halal</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Nut allergy</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Other</div>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">Do you have any medical or mobility considerations?</div>
+        <div class="travel-options" data-field="mobility">
+          <div class="t-opt" onclick="toggleOpt(this)">None</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Wheelchair accessible</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Medical equipment</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Prefer to share details privately</div>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">How do you prefer to be reached while traveling?</div>
+        <div class="travel-options" data-field="contact_pref">
+          <div class="t-opt" onclick="toggleOpt(this)">Text / SMS</div>
+          <div class="t-opt" onclick="toggleOpt(this)">WhatsApp</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Email</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Phone call</div>
+          <div class="t-opt" onclick="toggleOpt(this)">Through assistant only</div>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">Are there destinations or regions you prefer or wish to avoid?</div>
+        <div class="field" style="margin-top: 8px;">
+          <textarea name="destination_notes" placeholder="e.g. Prefer warm climates, avoid long-haul over 10 hours…"></textarea>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">Frequent flyer &amp; loyalty program numbers</div>
+        <div class="fields-grid" style="margin-top: 10px;">
+          <div class="field"><div class="field-label">Airline · Program name</div><input type="text" name="ff_airline" placeholder="e.g. Delta SkyMiles"></div>
+          <div class="field"><div class="field-label">Member Number</div><input type="text" name="ff_airline_num" placeholder=""></div>
+          <div class="field"><div class="field-label">Hotel program</div><input type="text" name="ff_hotel" placeholder="e.g. Marriott Bonvoy"></div>
+          <div class="field"><div class="field-label">Member Number</div><input type="text" name="ff_hotel_num" placeholder=""></div>
+        </div>
+      </div>
+
+      <div class="travel-card">
+        <div class="travel-q">Anything else your talent manager should know about how you travel?</div>
+        <div class="field" style="margin-top: 8px;">
+          <textarea name="additional_notes" placeholder="Special requests, personal quirks, non-negotiables, or anything that makes travel smoother for you…" style="min-height: 90px;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-banner" id="errorBanner">Something went wrong — please try again or email amy@studioscm.com directly.</div>
+
+    <div class="submit-row">
+      <div class="submit-note">All information is held strictly confidential by Studio SCM and shared only with your designated talent manager and approved travel partners.</div>
+      <button type="button" class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit Intake →</button>
+    </div>
+
+  </div><!-- end formSection -->
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✦</div>
+    <div class="main-title" style="font-size:36px; margin-bottom: 16px;">Thank <em>you.</em></div>
+    <div class="subtitle" style="margin-top: 0;">Your intake form has been received · Studio SCM will be in touch shortly</div>
+  </div>
+
+</div><!-- end page -->
+
+<script>
+  const countries = [];
+  let hotelCount = 3;
+
+  /* ---- Checklist ---- */
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.check-item').length;
+    const done = document.querySelectorAll('.check-item.checked').length;
+    document.getElementById('progressFill').style.width = (done / total * 100) + '%';
+  }
+
+  /* ---- Travel opts ---- */
+  function toggleOpt(el) { el.classList.toggle('selected'); }
+
+  /* ---- Countries ---- */
+  function addCountry() {
+    const input = document.getElementById('countryInput');
+    const val = input.value.trim();
+    if (!val) return;
+    countries.push(val);
+    input.value = '';
+    renderCountries();
+  }
+
+  function addCountryOnEnter(e) {
+    if (e.key === 'Enter') { e.preventDefault(); addCountry(); }
+  }
+
+  function removeCountry(idx) {
+    countries.splice(idx, 1);
+    renderCountries();
+  }
+
+  function renderCountries() {
+    const row = document.getElementById('countryTags');
+    row.innerHTML = countries.map((c, i) =>
+      `<div class="country-tag">${c}<span class="remove" onclick="removeCountry(${i})">×</span></div>`
+    ).join('');
+    document.getElementById('countriesHidden').value = countries.join(', ');
+  }
+
+  /* ---- Hotels ---- */
+  function addHotelField() {
+    hotelCount++;
+    const container = document.getElementById('hotelFields');
+    const div = document.createElement('div');
+    div.className = 'hotel-field field';
+    div.innerHTML = `<input type="text" name="hotel_${hotelCount}" placeholder="Hotel name · City · Country">`;
+    container.appendChild(div);
+  }
+
+  /* ---- File upload ---- */
+  function handleFileSelect(input) {
+    const label = document.getElementById('uploadLabel');
+    if (input.files && input.files[0]) {
+      label.textContent = '✓ ' + input.files[0].name;
+      document.getElementById('uploadZone').style.borderColor = '#b8a98a';
+    }
+  }
+
+  /* ---- Collect preference pills ---- */
+  function collectPreferences() {
+    const result = {};
+    document.querySelectorAll('.travel-options[data-field]').forEach(group => {
+      const key = group.getAttribute('data-field');
+      const selected = [...group.querySelectorAll('.t-opt.selected')].map(el => el.textContent.trim());
+      result[key] = selected.join(', ') || 'None selected';
+    });
+    return result;
+  }
+
+  /* ---- Submit via Formspree ---- */
+  async function handleSubmit() {
+    const btn = document.getElementById('submitBtn');
+    const errorBanner = document.getElementById('errorBanner');
+    errorBanner.classList.remove('visible');
+
+    // Basic validation
+    const required = document.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(field => {
+      if (!field.value.trim()) {
+        field.style.borderBottomColor = '#d47070';
+        valid = false;
+      } else {
+        field.style.borderBottomColor = '';
+      }
+    });
+    if (!valid) {
+      errorBanner.textContent = 'Please fill in all required fields before submitting.';
+      errorBanner.classList.add('visible');
+      errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    // Gather all named inputs
+    const data = {};
+    document.querySelectorAll('[name]').forEach(el => {
+      if (el.name && el.type !== 'file') data[el.name] = el.value;
+    });
+
+    // Merge preference pills
+    const prefs = collectPreferences();
+    Object.assign(data, prefs);
+
+    // Checklist state
+    const checks = [...document.querySelectorAll('.check-item')].map(el => {
+      return (el.classList.contains('checked') ? '✓ ' : '○ ') + el.querySelector('.check-label').textContent;
+    });
+    data['onboarding_checklist'] = checks.join(' | ');
+
+    // -------------------------------------------------------
+    // FORMSPREE ENDPOINT
+    // Replace YOUR_FORM_ID below after signing up at formspree.io
+    // e.g. https://formspree.io/f/abcd1234
+    // -------------------------------------------------------
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('successScreen').classList.add('visible');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (err) {
+      btn.textContent = 'Submit Intake →';
+      btn.disabled = false;
+      errorBanner.textContent = 'Something went wrong — please try again or email amy@studioscm.com directly.';
+      errorBanner.classList.add('visible');
+    }
+  }
+</script>
+</body>
+</html>
