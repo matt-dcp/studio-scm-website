@@ -558,15 +558,10 @@
     });
     data['onboarding_checklist'] = checks.join(' | ');
 
-    // -------------------------------------------------------
-    // FORMSPREE ENDPOINT
-    // Replace YOUR_FORM_ID below after signing up at formspree.io
-    // e.g. https://formspree.io/f/abcd1234
-    // -------------------------------------------------------
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+    const INTAKE_ENDPOINT = '/.netlify/functions/submit-intake';
 
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch(INTAKE_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(data)
