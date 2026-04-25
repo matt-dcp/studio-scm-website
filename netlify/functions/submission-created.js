@@ -3,7 +3,10 @@
 // Requires env var RESEND_API_KEY set in Netlify site settings.
 
 const TO = "amy@studioscm.com";
-const FROM = "Studio SCM Website <amy@studioscm.com>";
+// Must not be a real Google Workspace mailbox — Google rejects same-domain
+// mail arriving via external relays (Resend/SES) as spoofing, even with
+// valid SPF/DKIM. `postcards@` is not provisioned in Workspace.
+const FROM = "Studio SCM Postcards <postcards@studioscm.com>";
 
 export default async (req) => {
   const body = await req.json();
