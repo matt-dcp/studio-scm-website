@@ -22,17 +22,17 @@
 
   .page { max-width: 860px; margin: 0 auto; padding: 60px 48px 80px; }
 
-  .intake-header {
-    display: flex; align-items: center; justify-content: center;
-    padding: 8px 0 24px; margin-bottom: 24px;
-    border-bottom: 0.5px solid #1a1810;
+  /* Masthead — mirrors main site's .pc-top */
+  .intake-top {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(232, 226, 212, 0.18);
+    margin-bottom: 36px;
   }
+  .intake-top__left { justify-self: start; }
+  .intake-top__right { justify-self: end; }
+  .intake-top__logo-wrap { display: flex; align-items: center; justify-content: center; }
   .intake-logo { height: 56px; width: auto; opacity: 0.95; }
-
-  .confidential-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 0; margin-bottom: 32px;
-  }
   .conf-label { font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #7a7060; }
 
   .title-block { margin-bottom: 52px; }
@@ -148,6 +148,9 @@
 
   @media (max-width: 640px) {
     .page { padding: 32px 24px 60px; }
+    .intake-top { grid-template-columns: 1fr; gap: 10px; padding: 16px 0; text-align: center; }
+    .intake-top__left, .intake-top__right { justify-self: center; display: none; }
+    .intake-logo { height: 44px; }
     .checklist-grid { grid-template-columns: 1fr; }
     .fields-grid { grid-template-columns: 1fr; }
     .field.span2 { grid-column: span 1; }
@@ -163,14 +166,13 @@
 
   <div id="formSection">
 
-    <div class="intake-header">
-      <img src="assets/logo-white.png" alt="Studio SCM" class="intake-logo" />
-    </div>
-
-    <div class="confidential-bar">
-      <span class="conf-label">Confidential · Client Intake</span>
-      <span class="conf-label">Studio SCM · Talent Management</span>
-    </div>
+    <header class="intake-top">
+      <span class="conf-label intake-top__left">Confidential · Client Intake</span>
+      <div class="intake-top__logo-wrap">
+        <img src="assets/logo-white.png" alt="Studio SCM" class="intake-logo" />
+      </div>
+      <span class="conf-label intake-top__right">Studio SCM · Talent Management</span>
+    </header>
 
     <div class="title-block">
       <div class="studio-tag">Studio SCM · New Client Onboarding</div>
