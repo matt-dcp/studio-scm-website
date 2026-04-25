@@ -21,11 +21,14 @@ const SECTIONS = [
     "cardholder_name",
   ]],
   ["Travel History", [
-    "countries_visited", "hotel_1", "hotel_2", "hotel_3",
-    "hotel_4", "hotel_5", "hotel_6", "hotel_7", "hotel_8",
+    "countries_visited",
+    "hotel_1", "hotel_2", "hotel_3", "hotel_4",
+    "hotel_5", "hotel_6", "hotel_7", "hotel_8",
   ]],
   ["Travel Preferences", [
     "destination_notes",
+    "flight_class", "airline_pref", "hotel_type", "room_pref",
+    "dietary", "mobility", "contact_pref",
   ]],
   ["Notes", [
     "additional_notes",
@@ -55,7 +58,16 @@ const FIELD_LABELS = {
   global_entry: "Global Entry / NEXUS",
   cardholder_name: "Cardholder name",
   countries_visited: "Countries visited",
+  hotel_1: "Hotel 1", hotel_2: "Hotel 2", hotel_3: "Hotel 3", hotel_4: "Hotel 4",
+  hotel_5: "Hotel 5", hotel_6: "Hotel 6", hotel_7: "Hotel 7", hotel_8: "Hotel 8",
   destination_notes: "Destination notes",
+  flight_class: "Flight class",
+  airline_pref: "Preferred airlines",
+  hotel_type: "Preferred hotel types",
+  room_pref: "Room preferences",
+  dietary: "Dietary",
+  mobility: "Mobility / accessibility",
+  contact_pref: "Contact preference",
   additional_notes: "Additional notes",
   onboarding_checklist: "Onboarding checklist",
 };
