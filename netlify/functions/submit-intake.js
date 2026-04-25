@@ -27,9 +27,6 @@ const SECTIONS = [
   ["Travel Preferences", [
     "destination_notes",
   ]],
-  ["Frequent Flyer / Loyalty", [
-    "ff_airline", "ff_airline_num", "ff_hotel", "ff_hotel_num",
-  ]],
   ["Notes", [
     "additional_notes",
   ]],
@@ -59,10 +56,6 @@ const FIELD_LABELS = {
   cardholder_name: "Cardholder name",
   countries_visited: "Countries visited",
   destination_notes: "Destination notes",
-  ff_airline: "Airline program",
-  ff_airline_num: "Airline #",
-  ff_hotel: "Hotel program",
-  ff_hotel_num: "Hotel #",
   additional_notes: "Additional notes",
   onboarding_checklist: "Onboarding checklist",
 };
@@ -96,6 +89,33 @@ export default async (req) => {
       });
     return { title, rows };
   }).filter((s) => s.rows.length > 0);
+
+  // Loyalty programs — dynamic ff_airline_N / ff_hotel_N pairs.
+  const loyaltyRows = [];
+  for (const kind of [
+    { prefix: "airline", label: "Airline" },
+    { prefix: "hotel", label: "Hotel" },
+  ]) {
+    const indexes = Object.keys(data)
+      .map((k) => k.match(new RegExp(`^ff_${kind.prefix}_(\\d+)$`)))
+      .filter(Boolean)
+      .map((m) => parseInt(m[1], 10))
+      .sort((a, b) => a - b);
+    for (const i of indexes) {
+      const name = (data[`ff_${kind.prefix}_${i}`] || "").trim();
+      const num = (data[`ff_${kind.prefix}_num_${i}`] || "").trim();
+      claimed.add(`ff_${kind.prefix}_${i}`);
+      claimed.add(`ff_${kind.prefix}_num_${i}`);
+      if (!name && !num) continue;
+      const value = num ? `${name || "(no name)"} · ${num}` : name;
+      loyaltyRows.push({ label: kind.label, value });
+    }
+  }
+  if (loyaltyRows.length) {
+    const tpIdx = sectionsRendered.findIndex((s) => s.title === "Travel Preferences");
+    const insertAt = tpIdx >= 0 ? tpIdx + 1 : sectionsRendered.length;
+    sectionsRendered.splice(insertAt, 0, { title: "Frequent Flyer / Loyalty", rows: loyaltyRows });
+  }
 
   // Anything else (preference pills with dynamic keys, future fields)
   const otherRows = Object.keys(data)

@@ -22,18 +22,24 @@
 
   .page { max-width: 860px; margin: 0 auto; padding: 60px 48px 80px; }
 
+  .intake-header {
+    display: flex; align-items: center; justify-content: center;
+    padding: 8px 0 24px; margin-bottom: 24px;
+    border-bottom: 0.5px solid #1a1810;
+  }
+  .intake-logo { height: 56px; width: auto; opacity: 0.95; }
+
   .confidential-bar {
     display: flex; align-items: center; justify-content: space-between;
     padding: 10px 0; margin-bottom: 32px;
-    border-bottom: 0.5px solid #1a1810;
   }
-  .conf-label { font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #4a4438; }
+  .conf-label { font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #7a7060; }
 
   .title-block { margin-bottom: 52px; }
   .studio-tag { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #b8a98a; font-weight: 500; margin-bottom: 14px; }
   .main-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 400; line-height: 1.1; color: #f2ece0; letter-spacing: -0.01em; }
   .main-title em { font-style: italic; color: #c9b98a; }
-  .subtitle { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #7a7060; margin-top: 16px; }
+  .subtitle { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #9a9080; margin-top: 16px; }
 
   .progress-strip { height: 2px; background: #1a1810; margin-bottom: 56px; }
   .progress-fill { height: 100%; background: #b8a98a; width: 0%; transition: width 0.4s ease; }
@@ -59,14 +65,14 @@
   .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .field { display: flex; flex-direction: column; gap: 8px; }
   .field.span2 { grid-column: span 2; }
-  .field-label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #7a7060; font-weight: 500; }
+  .field-label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #9a9080; font-weight: 500; }
   .field-label .req { color: #b8a98a; margin-left: 2px; }
   .field input, .field textarea, .field select {
     background: transparent; border: none; border-bottom: 0.5px solid #2a2820;
     color: #e8e2d4; font-family: 'Inter', system-ui, sans-serif; font-weight: 400; font-size: 16px;
     padding: 10px 0; outline: none; transition: border-color 0.2s; letter-spacing: 0.01em; width: 100%;
   }
-  .field input::placeholder, .field textarea::placeholder { color: #3a3830; }
+  .field input::placeholder, .field textarea::placeholder { color: #5a5448; }
   .field input:focus, .field textarea:focus { border-bottom-color: #b8a98a; }
   .field textarea { resize: vertical; min-height: 70px; line-height: 1.6; }
 
@@ -80,18 +86,18 @@
   .cc-dot2 { width: 8px; height: 8px; border-radius: 50%; background: #7a7060; }
   .cc-info { flex: 1; }
   .cc-info-title { font-size: 14px; color: #c8c0b0; letter-spacing: 0.02em; margin-bottom: 4px; }
-  .cc-info-sub { font-size: 12px; color: #4a4438; letter-spacing: 0.04em; }
+  .cc-info-sub { font-size: 12px; color: #8a8070; letter-spacing: 0.04em; }
   .cc-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: #b8a98a; color: #0a0e14; font-family: 'Inter', system-ui, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
   .cc-btn:hover { background: #c8b99a; }
   .cc-arrow { width: 10px; height: 10px; border-top: 1.5px solid #0a0e14; border-right: 1.5px solid #0a0e14; transform: rotate(45deg); display: inline-block; flex-shrink: 0; }
   .cc-bottom { padding: 14px 24px; display: flex; align-items: center; gap: 10px; }
-  .cc-secure-note { font-size: 12px; color: #5a5448; letter-spacing: 0.04em; line-height: 1.6; }
+  .cc-secure-note { font-size: 12px; color: #8a8070; letter-spacing: 0.04em; line-height: 1.6; }
 
   /* Passport upload */
   .passport-upload { border: 0.5px dashed #2a2820; padding: 28px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
   .passport-upload:hover { border-color: #4a4030; }
-  .upload-label { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #7a7060; display: block; margin-bottom: 8px; margin-top: 12px; font-weight: 500; }
-  .upload-sub { font-size: 12px; color: #5a5448; letter-spacing: 0.02em; }
+  .upload-label { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #9a9080; display: block; margin-bottom: 8px; margin-top: 12px; font-weight: 500; }
+  .upload-sub { font-size: 12px; color: #8a8070; letter-spacing: 0.02em; }
   .passport-upload input[type="file"] { display: none; }
 
   /* Countries */
@@ -103,9 +109,16 @@
   .add-country input { background: transparent; border: none; border-bottom: 0.5px solid #2a2820; color: #e8e2d4; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; padding: 8px 0; outline: none; flex: 1; letter-spacing: 0.02em; }
   .add-country input:focus { border-bottom-color: #b8a98a; }
   .add-country input::placeholder { color: #3a3428; }
-  .add-btn { font-size: 22px; color: #4a4438; cursor: pointer; border: none; background: none; line-height: 1; padding: 0 4px; }
+  .add-btn { font-size: 22px; color: #7a7060; cursor: pointer; border: none; background: none; line-height: 1; padding: 0 4px; }
   .add-btn:hover { color: #b8a98a; }
+  .add-link { margin-top: 12px; font-size: 12px; color: #9a9080; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; transition: color 0.2s; display: inline-block; }
+  .add-link:hover { color: #b8a98a; }
   .hotel-field { margin-bottom: 10px; }
+  .ff-pair { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 0.5px solid #1a1810; }
+  .ff-pair:last-child { border-bottom: none; padding-bottom: 0; }
+  .ff-subsection { margin-bottom: 24px; }
+  .ff-subsection:last-child { margin-bottom: 0; }
+  .ff-group-label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #b8a98a; font-weight: 500; margin-bottom: 14px; }
 
   /* Travel preference cards */
   .travel-card { border: 0.5px solid #1e1c18; padding: 20px 24px; margin-bottom: 12px; background: #0c1018; }
@@ -117,7 +130,7 @@
 
   /* Submit */
   .submit-row { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-top: 32px; border-top: 0.5px solid #2a2820; margin-top: 48px; }
-  .submit-note { font-size: 12px; color: #6a6458; letter-spacing: 0.04em; max-width: 360px; line-height: 1.7; }
+  .submit-note { font-size: 12px; color: #8a8070; letter-spacing: 0.04em; max-width: 360px; line-height: 1.7; }
   .submit-btn { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #0a0e14; background: #b8a98a; border: none; padding: 18px 44px; cursor: pointer; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
   .submit-btn:hover { background: #c8b99a; }
   .submit-btn:disabled { background: #3a3428; color: #5a5448; cursor: default; }
@@ -149,6 +162,10 @@
 <div class="page">
 
   <div id="formSection">
+
+    <div class="intake-header">
+      <img src="assets/logo-white.png" alt="Studio SCM" class="intake-logo" />
+    </div>
 
     <div class="confidential-bar">
       <span class="conf-label">Confidential · Client Intake</span>
@@ -299,7 +316,7 @@
           <div class="hotel-field field"><input type="text" name="hotel_2" placeholder="Hotel name · City · Country"></div>
           <div class="hotel-field field"><input type="text" name="hotel_3" placeholder="Hotel name · City · Country"></div>
         </div>
-        <div style="margin-top: 10px; font-size: 10px; color: #4a4438; cursor: pointer; letter-spacing: 0.1em;" onclick="addHotelField()">+ Add another property</div>
+        <div class="add-link" onclick="addHotelField()">+ Add another property</div>
       </div>
     </div>
 
@@ -405,11 +422,27 @@
 
       <div class="travel-card">
         <div class="travel-q">Frequent flyer &amp; loyalty program numbers</div>
-        <div class="fields-grid" style="margin-top: 10px;">
-          <div class="field"><div class="field-label">Airline · Program name</div><input type="text" name="ff_airline" placeholder="e.g. Delta SkyMiles"></div>
-          <div class="field"><div class="field-label">Member Number</div><input type="text" name="ff_airline_num" placeholder=""></div>
-          <div class="field"><div class="field-label">Hotel program</div><input type="text" name="ff_hotel" placeholder="e.g. Marriott Bonvoy"></div>
-          <div class="field"><div class="field-label">Member Number</div><input type="text" name="ff_hotel_num" placeholder=""></div>
+
+        <div class="ff-subsection" style="margin-top: 16px;">
+          <div class="ff-group-label">Airline programs</div>
+          <div id="airlineFields">
+            <div class="ff-pair fields-grid">
+              <div class="field"><div class="field-label">Program name</div><input type="text" name="ff_airline_1" placeholder="e.g. Delta SkyMiles"></div>
+              <div class="field"><div class="field-label">Member number</div><input type="text" name="ff_airline_num_1" placeholder=""></div>
+            </div>
+          </div>
+          <div class="add-link" onclick="addAirlineField()">+ Add another airline program</div>
+        </div>
+
+        <div class="ff-subsection">
+          <div class="ff-group-label">Hotel programs</div>
+          <div id="hotelProgramFields">
+            <div class="ff-pair fields-grid">
+              <div class="field"><div class="field-label">Program name</div><input type="text" name="ff_hotel_1" placeholder="e.g. Marriott Bonvoy"></div>
+              <div class="field"><div class="field-label">Member number</div><input type="text" name="ff_hotel_num_1" placeholder=""></div>
+            </div>
+          </div>
+          <div class="add-link" onclick="addHotelProgramField()">+ Add another hotel program</div>
         </div>
       </div>
 
@@ -492,6 +525,34 @@
     const div = document.createElement('div');
     div.className = 'hotel-field field';
     div.innerHTML = `<input type="text" name="hotel_${hotelCount}" placeholder="Hotel name · City · Country">`;
+    container.appendChild(div);
+  }
+
+  /* ---- Loyalty programs ---- */
+  let airlineCount = 1;
+  let hotelProgramCount = 1;
+
+  function addAirlineField() {
+    airlineCount++;
+    const container = document.getElementById('airlineFields');
+    const div = document.createElement('div');
+    div.className = 'ff-pair fields-grid';
+    div.innerHTML = `
+      <div class="field"><div class="field-label">Program name</div><input type="text" name="ff_airline_${airlineCount}" placeholder="e.g. American AAdvantage"></div>
+      <div class="field"><div class="field-label">Member number</div><input type="text" name="ff_airline_num_${airlineCount}" placeholder=""></div>
+    `;
+    container.appendChild(div);
+  }
+
+  function addHotelProgramField() {
+    hotelProgramCount++;
+    const container = document.getElementById('hotelProgramFields');
+    const div = document.createElement('div');
+    div.className = 'ff-pair fields-grid';
+    div.innerHTML = `
+      <div class="field"><div class="field-label">Program name</div><input type="text" name="ff_hotel_${hotelProgramCount}" placeholder="e.g. Hyatt World of Hyatt"></div>
+      <div class="field"><div class="field-label">Member number</div><input type="text" name="ff_hotel_num_${hotelProgramCount}" placeholder=""></div>
+    `;
     container.appendChild(div);
   }
 
