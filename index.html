@@ -3,435 +3,630 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Studio SCM · Boutique Family Travel · Nashville, Trips Worldwide</title>
+<title>Studio SCM · Boutique Family Travel</title>
 <meta name="description" content="Studio SCM is a boutique travel house for families who'd rather tell stories than take selfies. Handcrafted journeys, planned personally by Amy." />
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="apple-touch-icon" href="assets/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Caveat:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F3EEE4;
+    --ink: #1E1A14;
+    --body: #3A2F24;
+    --muted: #6B5E4A;
+    --accent: #B5583A;
+    --rule: rgba(30, 26, 20, 0.12);
+    --rule-strong: rgba(30, 26, 20, 0.22);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+  }
+
+  /* Subtle grain texture for warmth */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  body > * { position: relative; z-index: 1; }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  /* Scroll-reveal animation */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.is-visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    display: flex; align-items: center; justify-content: center;
+    padding: 36px 24px 28px;
+  }
+  .masthead__logo { height: 72px; width: auto; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 560px;
+    max-height: 720px;
+    overflow: hidden;
+  }
+  .hero__img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .hero__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0.5) 100%);
+  }
+  .hero__words {
+    position: absolute;
+    left: max(24px, calc((100% - 1100px) / 2));
+    right: max(24px, calc((100% - 1100px) / 2));
+    bottom: 13%;
+    color: #fff;
+    text-shadow: 0 2px 28px rgba(0,0,0,0.45);
+  }
+  .hero__kicker {
+    font-family: 'Caveat', cursive;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+    opacity: 0.95;
+  }
+  .hero__caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: 0.005em;
+  }
+
+  /* ---------- Section shell ---------- */
+  .section { padding: 112px 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section__kicker {
+    font-family: 'Caveat', cursive;
+    font-weight: 500;
+    font-size: 26px;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .section__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 46px;
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  /* ---------- Three-card grid ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .card {
+    display: flex; flex-direction: column; gap: 14px;
+    cursor: default;
+  }
+  .card__img-wrap {
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    width: 100%;
+  }
+  .card__img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .card:hover .card__img { transform: scale(1.04); }
+
+  .card__kicker {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 6px;
+  }
+  .card__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 27px;
+    line-height: 1.2;
+    margin-top: 0;
+    transition: color 0.2s ease;
+  }
+  .card:hover .card__title { color: var(--accent); }
+  .card__body {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--body);
+    margin-top: 6px;
+  }
+  .card__body p + p { margin-top: 14px; }
+
+  /* ---------- Social ---------- */
+  .social { padding: 96px 24px 112px; }
+  .social__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 38px;
+    text-align: center;
+    margin-bottom: 44px;
+  }
+  .social__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 40px;
+  }
+  .social__card {
+    position: relative;
+    background: #fff;
+    padding: 10px 10px 30px;
+    box-shadow: 0 12px 28px -10px rgba(20, 15, 10, 0.18);
+    transition: transform 0.3s ease;
+  }
+  .social__card:hover { transform: translateY(-2px); }
+  .social__img-wrap {
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+  }
+  .social__img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .social__card:hover .social__img { transform: scale(1.05); }
+  .social__caption {
+    position: absolute;
+    bottom: 6px;
+    left: 14px;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: #2a2017;
+  }
+  .social__cta-row { text-align: center; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 15px 38px;
+    border-radius: 999px;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn:hover { background: var(--accent); }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+  /* ---------- Inquiries ---------- */
+  .inquiries { padding: 112px 24px; border-top: 1px solid var(--rule); }
+  .inquiries__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .inquiries .section__kicker { text-align: left; margin-bottom: 6px; }
+  .inquiries__heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 1.0;
+    margin-bottom: 24px;
+  }
+  .inquiries__body {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--body);
+    max-width: 380px;
+    margin-bottom: 20px;
+  }
+  .inquiries__signature {
+    font-family: 'Caveat', cursive;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--accent);
+    margin-top: 28px;
+  }
+
+  .form { display: grid; gap: 26px; }
+  .form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field__label {
+    font-size: 12px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+  .field__label .req {
+    color: var(--muted);
+    font-size: 11px;
+    margin-left: 5px;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .field__input,
+  .field__textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rule-strong);
+    border-radius: 0;
+    padding: 10px 0 12px;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    width: 100%;
+    transition: border-bottom-color 0.2s, border-bottom-width 0.2s;
+    outline: none;
+  }
+  .field__input::placeholder,
+  .field__textarea::placeholder { color: var(--muted); opacity: 0.5; }
+  .field__input:focus,
+  .field__textarea:focus {
+    border-bottom-color: var(--accent);
+    border-bottom-width: 1.5px;
+  }
+  .field__textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+
+  .form__actions { margin-top: 10px; }
+  .form__status {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    min-height: 1em;
+  }
+  .form__status--error { color: #9a3a2a; }
+  .form__status--success { color: #2a6e3f; }
+
+  /* ---------- Pre-footer CTA banner ---------- */
+  .cta-banner {
+    text-align: center;
+    padding: 64px 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .cta-banner__line {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    color: var(--ink);
+  }
+  .cta-banner__line a {
+    border-bottom: 1px solid var(--rule-strong);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .cta-banner__line a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    border-top: 1px solid var(--rule);
+    padding: 48px 24px 56px;
+  }
+  .footer__grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+  .footer__mark {
+    display: flex; align-items: center;
+  }
+  .footer__logo { height: 28px; width: auto; opacity: 0.85; }
+  .footer__center {
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer__center a {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .footer__center a:hover { color: var(--ink); border-bottom-color: var(--rule-strong); }
+  .footer__right {
+    text-align: right;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px) {
+    .section { padding: 72px 24px; }
+    .section__title { font-size: 34px; margin-bottom: 44px; }
+    .section__kicker { font-size: 22px; }
+    .hero { height: 60vh; min-height: 420px; max-height: 540px; }
+    .hero__words { bottom: 9%; left: 24px; right: 24px; }
+    .hero__caption { font-size: 44px; }
+    .hero__kicker { font-size: 20px; }
+    .cards { grid-template-columns: 1fr; gap: 50px; }
+    .card__title { font-size: 24px; }
+    .social { padding: 64px 24px 80px; }
+    .social__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .social__title { font-size: 30px; margin-bottom: 32px; }
+    .inquiries { padding: 72px 24px; }
+    .inquiries__grid { grid-template-columns: 1fr; gap: 36px; }
+    .inquiries__heading { font-size: 50px; }
+    .form__row { grid-template-columns: 1fr; }
+    .masthead__logo { height: 56px; }
+    .cta-banner { padding: 48px 24px; }
+    .cta-banner__line { font-size: 22px; }
+    .footer__grid { grid-template-columns: 1fr; text-align: center; gap: 18px; }
+    .footer__mark { justify-content: center; }
+    .footer__right { text-align: center; }
+  }
+</style>
 </head>
 <body>
-<div class="postcards pc--warm" id="app">
-  <div class="pc-grain"></div>
 
-  <!-- Masthead -->
-  <header class="pc-top">
-    <div class="pc-top__date" id="issueDate">Vol. 014 · Spring 2026</div>
-    <a class="pc-top__logo-wrap" href="#top" aria-label="Studio SCM home">
-      <img src="assets/logo-black.png" alt="Studio SCM" class="scm-logo pc-top__logo-img" />
+  <header class="masthead">
+    <a href="#top" aria-label="Studio SCM home">
+      <img src="assets/logo-black.png" alt="Studio SCM" class="masthead__logo" width="200" height="120" />
     </a>
-    <nav class="pc-top__nav">
-      <a href="#journeys">Journeys</a>
-      <a href="#featured">Featured</a>
-      <a href="#about">About</a>
-      <a href="#inquire" class="pc-top__cta">Plan a trip</a>
-    </nav>
   </header>
 
-  <!-- Hero -->
-  <section class="pc-hero pc-hero--stacked" id="top">
-    <div class="pc-hero__kicker pc-reveal">
-      <span class="pc-hero__dot"></span>
-      now booking &rsquo;26 &amp; &rsquo;27
-    </div>
-
-    <h1 class="pc-hero__title">
-      <span class="pc-reveal pc-reveal--1">Dear&nbsp;family,</span>
-      <em class="pc-reveal pc-reveal--2">pack light.</em>
-      <span class="pc-reveal pc-reveal--3 pc-hero__title-sub">The world is ready for you.</span>
-    </h1>
-
-    <p class="pc-hero__lede pc-reveal pc-reveal--4">
-      Studio SCM is a boutique travel house for families who&rsquo;d rather tell stories than take selfies.
-      We plan the kind of trips your kids talk about at dinner&hellip; forever.
-    </p>
-
-    <div class="pc-hero__actions pc-reveal pc-reveal--5">
-      <a href="#inquire" class="pc-hero__btn pc-hero__btn--primary">Start a trip &rarr;</a>
-      <a href="#journeys" class="pc-hero__btn pc-hero__btn--ghost">How it works</a>
-    </div>
-
-    <div class="pc-hero__meta pc-reveal pc-reveal--6">
-      <div><span>12yr</span>crafting journeys</div>
-      <div><span>42</span>countries mapped</div>
-      <div><span>100%</span>of clients return</div>
-    </div>
-
-    <div class="pc-hero__card pc-hero__card--a" data-parallax="30">
-      <div class="pc-hero__card-inner">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1742064198302-4YG5GZ7QN551DV7C6BDN/unsplash-image-4jgWVpKHO_4.jpg?format=1500w" alt="" />
-        <div class="pc-tape pc-tape--tl"></div>
-        <div class="pc-tape pc-tape--br"></div>
-        <div class="pc-hero__caption">Tulum, 04/2025. &ldquo;jungle, then sea.&rdquo;</div>
-      </div>
-    </div>
-    <div class="pc-hero__card pc-hero__card--b" data-parallax="-18">
-      <div class="pc-hero__card-inner">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1742065174877-7OCBMMV33NZA53X5NGUK/unsplash-image-Ux2le0HiXwE.jpg?format=1500w" alt="" />
-        <div class="pc-tape pc-tape--tr"></div>
-        <div class="pc-hero__caption pc-hero__caption--right">San Miguel &middot; 9/24</div>
-      </div>
-    </div>
-
-    <div class="pc-hero__seal">
-      <img src="assets/logo-black.png" alt="" class="scm-logo pc-hero__seal-logo" />
-    </div>
-
-    <div class="pc-hero__scrawl" aria-hidden="true">
-      <svg viewBox="0 0 220 80" fill="none">
-        <path d="M6 60 C 60 20, 140 20, 210 50" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        <path d="M200 40 L 210 50 L 198 56" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" />
-      </svg>
-      <span>start here &darr;</span>
+  <section class="hero" id="top">
+    <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1742064198302-4YG5GZ7QN551DV7C6BDN/unsplash-image-4jgWVpKHO_4.jpg?format=2500w"
+         alt="Aerial view of a tropical beach with palm trees and turquoise water"
+         class="hero__img" width="2500" height="1400" />
+    <div class="hero__overlay"></div>
+    <div class="hero__words">
+      <div class="hero__kicker">a boutique travel house</div>
+      <div class="hero__caption">Adventure Awaits&hellip;</div>
     </div>
   </section>
 
-  <!-- Ticker -->
-  <div class="pc-ticker" aria-hidden="true">
-    <div class="pc-ticker__row">
-      <span class="pc-ticker__item"><em>&#10022;</em> Baja</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Aspen</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Serengeti</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Mexico City</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> London</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Martha&rsquo;s Vineyard</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Punta Mita</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Jackson Hole</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Kyoto</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Nantucket</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Costa Rica</span>
-      <span class="pc-ticker__item"><em>&#10022;</em> Napa Valley</span>
-      <!-- Duplicated for seamless marquee -->
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Baja</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Aspen</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Serengeti</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Mexico City</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> London</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Martha&rsquo;s Vineyard</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Punta Mita</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Jackson Hole</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Kyoto</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Nantucket</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Costa Rica</span>
-      <span class="pc-ticker__item" aria-hidden="true"><em>&#10022;</em> Napa Valley</span>
-    </div>
-  </div>
+  <section class="section">
+    <div class="container">
+      <p class="section__kicker reveal">What we&rsquo;re known for</p>
+      <h2 class="section__title reveal">Bring your travel dreams to life</h2>
+      <div class="cards">
 
-  <!-- Pillars -->
-  <section class="pc-pillars" id="journeys">
-    <div class="pc-pillars__head">
-      <span class="pc-pillars__rule"></span>
-      <h2>The trips we&rsquo;re built for</h2>
-      <p>A weekend away, a bucket-list adventure, or somewhere your kids have never been. We plan them all.</p>
-    </div>
-
-    <article class="pc-card" data-reveal>
-      <div class="pc-card__img">
-        <img src="https://images.unsplash.com/photo-1623055576799-e0644e49887a?w=1500&amp;q=80&amp;auto=format&amp;fit=crop" alt="White beach umbrellas lined up next to the ocean" />
-        <span class="pc-stamp pc-stamp--accent">
-          <b>No. 01</b>
-          <i>Family</i>
-        </span>
-      </div>
-      <div class="pc-card__body">
-        <div class="pc-card__kicker">Chapter one</div>
-        <h3>Dreamy Family Getaways</h3>
-        <p>Family moments are precious. That&rsquo;s why we handpick not just locations but the experiences that deepen bonds: long afternoons in the sand with shave ice in hand, snorkeling with sea turtles at first light, bonfires after the sun drops into the sea.</p>
-        <ul class="pc-card__list">
-          <li>Beachfront villas in Maui, Kauai, and the Big Island</li>
-          <li>Private chefs, crib rentals, all the small-kid logistics</li>
-          <li>Spring-break escapes, planned so you actually rest</li>
-        </ul>
-        <a class="pc-card__more" href="#inquire">read more &rarr;</a>
-      </div>
-      <div class="pc-card__margin">
-        <span>&ldquo;Amy thought of things we never would have, right down to the kids&rsquo; car snacks.&rdquo;</span>
-        <em>The R. family, 2024</em>
-      </div>
-    </article>
-
-    <article class="pc-card pc-card--flip" data-reveal>
-      <div class="pc-card__img">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1742064714961-5JVYL4A6HORK1YNWPMLC/unsplash-image-0LwfbRtQ-ac.jpg?format=1500w" alt="" />
-        <span class="pc-stamp pc-stamp--accent2">
-          <b>No. 02</b>
-          <i>Bucket list</i>
-        </span>
-      </div>
-      <div class="pc-card__body">
-        <div class="pc-card__kicker">Chapter two</div>
-        <h3>Bucket-List Adventures</h3>
-        <p>From a safari in the Serengeti to the Northern Lights in Iceland to a multi-generational trip to the Great Barrier Reef. Unforgettable, once-in-a-lifetime journeys worth checking off together.</p>
-        <ul class="pc-card__list">
-          <li>Serengeti migration in July/August</li>
-          <li>Northern Lights villas, Feb window</li>
-          <li>Gal&aacute;pagos yacht charters for up to 16</li>
-        </ul>
-        <a class="pc-card__more" href="#inquire">read more &rarr;</a>
-      </div>
-      <div class="pc-card__margin">
-        <span>&ldquo;The guide remembered our daughter&rsquo;s name three years later. That&rsquo;s SCM.&rdquo;</span>
-        <em>The L. family, 2023</em>
-      </div>
-    </article>
-
-    <article class="pc-card" data-reveal>
-      <div class="pc-card__img">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1742065174877-7OCBMMV33NZA53X5NGUK/unsplash-image-Ux2le0HiXwE.jpg?format=1500w" alt="" />
-        <span class="pc-stamp pc-stamp--accent3">
-          <b>No. 03</b>
-          <i>Weekend</i>
-        </span>
-      </div>
-      <div class="pc-card__body">
-        <div class="pc-card__kicker">Chapter three</div>
-        <h3>Weekend Getaways</h3>
-        <p>A refreshing breeze for mom and dad. A pause in the hectic symphony. Two or three nights to reconnect, recharge, and rediscover each other amidst the chaos.</p>
-        <ul class="pc-card__list">
-          <li>Blackberry Farm &middot; Napa &middot; Charleston</li>
-          <li>Anniversary surprises, arranged discreetly</li>
-          <li>Last-minute long weekends, under 6 weeks out</li>
-        </ul>
-        <a class="pc-card__more" href="#inquire">read more &rarr;</a>
-      </div>
-      <div class="pc-card__margin">
-        <span>&ldquo;Booked on a Tuesday, flying on a Friday. Saved our marriage. Only half joking.&rdquo;</span>
-        <em>M. &amp; J., Nashville</em>
-      </div>
-    </article>
-
-    <article class="pc-card pc-card--flip" data-reveal>
-      <div class="pc-card__img">
-        <img src="https://images.unsplash.com/photo-1507065282747-afce6cd90e84?w=1500&amp;q=80&amp;auto=format&amp;fit=crop" alt="A girl riding a white horse" />
-        <span class="pc-stamp pc-stamp--accent">
-          <b>No. 04</b>
-          <i>Multi-gen</i>
-        </span>
-      </div>
-      <div class="pc-card__body">
-        <div class="pc-card__kicker">Chapter four</div>
-        <h3>Three Generations, One Trip</h3>
-        <p>The trips where grandparents keep up with grandkids and everyone comes home with the same story to tell. Think saddlebags on a guest ranch in Wyoming, a rented estate with room for all three generations, a milestone birthday turned into a week nobody forgets.</p>
-        <ul class="pc-card__list">
-          <li>Guest ranches in Wyoming, Montana, and Colorado</li>
-          <li>Rented estates in Ireland, Portugal, and the Cotswolds</li>
-          <li>Milestone trips (big birthdays, retirements, reunions)</li>
-        </ul>
-        <a class="pc-card__more" href="#inquire">read more &rarr;</a>
-      </div>
-      <div class="pc-card__margin">
-        <span>&ldquo;The grandkids still talk about their horses by name. So do we.&rdquo;</span>
-        <em>The T. family, 2024</em>
-      </div>
-    </article>
-  </section>
-
-  <!-- Featured -->
-  <section class="pc-featured" id="featured">
-    <div class="pc-featured__tag">Featured journey</div>
-    <h2 class="pc-featured__title">Seven nights in <em>Baja</em>, with the kids.</h2>
-    <div class="pc-featured__grid">
-      <div class="pc-featured__img" data-parallax="24">
-        <img src="https://images.unsplash.com/photo-1720366252332-a86c8a11d879?w=1500&amp;q=80&amp;auto=format&amp;fit=crop" alt="A swimmer alongside a whale shark in the deep blue" />
-        <div class="pc-tape pc-tape--tl"></div>
-      </div>
-      <ol class="pc-itin">
-        <li><span class="pc-itin__day">Day 1</span><div><b>Arrive Los Cabos.</b> Private driver up the Pacific coast to Todos Santos. Fresh agua fresca on the porch, kids chasing hummingbirds.</div></li>
-        <li><span class="pc-itin__day">Day 2</span><div><b>Todos Santos, slow.</b> Art galleries, Hotel California lunch, an afternoon at Cerritos for beginner surf swells.</div></li>
-        <li><span class="pc-itin__day">Day 3</span><div><b>Desert to ocean.</b> Morning horseback ride on empty beach, evening pastry crawl through the pueblo m&aacute;gico.</div></li>
-        <li><span class="pc-itin__day">Day 4</span><div><b>East to La Paz.</b> Sea of Cortez sunset sail. Sea lions on the rocks, the kids perched on the bow.</div></li>
-        <li><span class="pc-itin__day">Day 5</span><div><b>Whale sharks.</b> Private panga and a marine biologist guide. Swim with the gentle giants (October through April).</div></li>
-        <li><span class="pc-itin__day">Day 6</span><div><b>Lux Cabo.</b> Transfer to a coastal resort on the Sea of Cortez. Pool day, beach bonfire, s&rsquo;mores under the stars.</div></li>
-        <li><span class="pc-itin__day">Day 7</span><div><b>Depart.</b> Sportfishing at sunrise or spa at the resort. Farewell breakfast, hand-lettered itinerary to keep.</div></li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- IG cork board -->
-  <section class="pc-ig">
-    <div class="pc-ig__head">
-      <h2>From the road</h2>
-      <a href="https://www.instagram.com/_studioscm_" target="_blank" rel="noopener">@_studioscm_ &rarr;</a>
-    </div>
-    <div class="pc-ig__grid">
-      <div class="pc-ig__card" style="transform: rotate(1deg)">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1741045265531-P3QNZTARJ4J6D4EBK2OR/unsplash-image-9eNG_3xXSoY.jpg?format=1000w" alt="" />
-        <div class="pc-tape pc-tape--tl"></div>
-        <div class="pc-ig__cap">#jacksonhole</div>
-      </div>
-      <div class="pc-ig__card" style="transform: rotate(-2deg)">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1741045296581-FQROM95M05N2TWG8F2K9/unsplash-image-Qsz1hPkPzR8.jpg?format=1000w" alt="" />
-        <div class="pc-tape pc-tape--tl"></div>
-        <div class="pc-ig__cap">#machupicchu</div>
-      </div>
-      <div class="pc-ig__card" style="transform: rotate(3deg)">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1741045351911-PG1CDK80WMHMMXMI58O1/unsplash-image-nf7W_hn6DKQ.jpg?format=1000w" alt="" />
-        <div class="pc-tape pc-tape--tl"></div>
-        <div class="pc-ig__cap">#serengeti</div>
-      </div>
-      <div class="pc-ig__card" style="transform: rotate(-1deg)">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1741045392214-0L555DCM1FXVEA2BROFJ/unsplash-image-AH8zKXqFITA.jpg?format=1000w" alt="" />
-        <div class="pc-tape pc-tape--tl"></div>
-        <div class="pc-ig__cap">#patagonia</div>
-      </div>
-      <div class="pc-ig__card" style="transform: rotate(2deg)">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1742064985718-777VHSINHOZTZSU44MDF/unsplash-image-9_JUWiKULUU.jpg?format=1500w" alt="" />
-        <div class="pc-tape pc-tape--tl"></div>
-        <div class="pc-ig__cap">#lapland</div>
-      </div>
-      <div class="pc-ig__card" style="transform: rotate(-3deg)">
-        <img src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1742064714961-5JVYL4A6HORK1YNWPMLC/unsplash-image-0LwfbRtQ-ac.jpg?format=1500w" alt="" />
-        <div class="pc-tape pc-tape--tl"></div>
-        <div class="pc-ig__cap">#kenya</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section class="pc-about" id="about">
-    <div class="pc-about__mark">
-      <img src="assets/logo-black.png" alt="Studio SCM" class="scm-logo pc-about__logo" />
-    </div>
-    <div class="pc-about__body">
-      <div class="pc-about__kicker">A note from Amy</div>
-      <p>
-        I started Studio SCM because my family&rsquo;s best memories came from trips that felt <em>made</em> for us.
-        Every journey I plan is the one I would have planned for my own kids: honest, hand-built, and a little surprising.
-      </p>
-      <p>
-        I take on a small number of families each season so every trip gets real attention.
-        If that sounds like how you want to travel, I&rsquo;d love to hear from you.
-      </p>
-      <div class="pc-about__sig">Amy</div>
-    </div>
-  </section>
-
-  <!-- Inquiry -->
-  <section class="pc-inquire" id="inquire">
-    <div class="pc-inquire__head">
-      <span class="pc-inquire__rule"></span>
-      <h2>Send us a postcard.</h2>
-      <p>Share a few details and we&rsquo;ll write back, usually within 48 hours.</p>
-    </div>
-
-    <form class="inq-postcard" id="inquiryForm" name="inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" autocomplete="on" novalidate>
-      <input type="hidden" name="form-name" value="inquiry" />
-      <p hidden><label>Don&rsquo;t fill this out: <input name="bot-field" /></label></p>
-      <input type="hidden" name="travelers" />
-      <input type="hidden" name="month" />
-      <input type="hidden" name="budget" />
-      <div class="inq-postcard__head">
-        <span class="inq-postcard__kicker">Postmarked</span>
-        <span class="inq-postcard__date" id="inquiryDate"></span>
-      </div>
-      <h3 class="inq-postcard__title">Dear&nbsp;Amy,</h3>
-
-      <div class="inq-postcard__body">
-        <div class="inq-step" data-step="0">
-          <p>My name is</p>
-          <input class="inq-line" name="name" placeholder="first & last" required />
-          <p>You can reach me at</p>
-          <input class="inq-line" name="email" type="email" placeholder="email" required />
-          <p class="inq-err" data-err-for="0" hidden>Please add your name and email to continue.</p>
-        </div>
-
-        <div class="inq-step" data-step="1" hidden>
-          <p class="inq-err" data-err-for="1" hidden>Please pick a traveler group and a departure month.</p>
-          <p>We&rsquo;re traveling as</p>
-          <div class="inq-chips" data-group="travelers">
-            <button type="button" class="inq-chip" data-value="Just two">Just two</button>
-            <button type="button" class="inq-chip" data-value="Family of 3–4">Family of 3&ndash;4</button>
-            <button type="button" class="inq-chip" data-value="Family of 5+">Family of 5+</button>
-            <button type="button" class="inq-chip" data-value="Multi-gen">Multi-gen</button>
+        <article class="card reveal">
+          <div class="card__img-wrap">
+            <img class="card__img"
+                 src="https://images.unsplash.com/photo-1517299321609-52687d1bc55a?w=1200&amp;q=80&amp;auto=format&amp;fit=crop"
+                 alt="Snowy cabin nestled in a winter forest"
+                 loading="lazy" width="1200" height="900" />
           </div>
-          <p>Ideally departing in</p>
-          <div class="inq-months" data-group="month">
-            <button type="button" class="inq-month" data-value="Jan">Jan</button>
-            <button type="button" class="inq-month" data-value="Feb">Feb</button>
-            <button type="button" class="inq-month" data-value="Mar">Mar</button>
-            <button type="button" class="inq-month" data-value="Apr">Apr</button>
-            <button type="button" class="inq-month" data-value="May">May</button>
-            <button type="button" class="inq-month" data-value="Jun">Jun</button>
-            <button type="button" class="inq-month" data-value="Jul">Jul</button>
-            <button type="button" class="inq-month" data-value="Aug">Aug</button>
-            <button type="button" class="inq-month" data-value="Sep">Sep</button>
-            <button type="button" class="inq-month" data-value="Oct">Oct</button>
-            <button type="button" class="inq-month" data-value="Nov">Nov</button>
-            <button type="button" class="inq-month" data-value="Dec">Dec</button>
+          <p class="card__kicker">Family · 01</p>
+          <h3 class="card__title">Discover Dreamy Family Getaways</h3>
+          <div class="card__body">
+            <p>We know that family moments are precious. That&rsquo;s why we handpick not just locations but also experiences that deepen bonds. Think treasure hunts in ancient cities, stargazing sessions under clear skies, or beach days filled with laughter and sandcastles.</p>
+            <p>From the sunny shores to the scenic mountains, let us help you transform your family vacation into a delightful story worth telling. Pack your bags; unforgettable memories await!</p>
           </div>
-        </div>
+        </article>
 
-        <div class="inq-step" data-step="2" hidden>
-          <p class="inq-err" data-err-for="2" hidden>Please describe your trip and pick a rough budget.</p>
-          <p>The trip I&rsquo;m dreaming about&hellip;</p>
-          <textarea class="inq-area" name="dream" placeholder="a safari with the kids, a week in Puglia, anywhere with a pool…" required></textarea>
-          <p>Budget, roughly</p>
-          <div class="inq-chips" data-group="budget">
-            <button type="button" class="inq-chip" data-value="$5-10k">$5&ndash;10k</button>
-            <button type="button" class="inq-chip" data-value="$10-20k">$10&ndash;20k</button>
-            <button type="button" class="inq-chip" data-value="$20-40k">$20&ndash;40k</button>
-            <button type="button" class="inq-chip" data-value="$40k+">$40k+</button>
+        <article class="card reveal">
+          <div class="card__img-wrap">
+            <img class="card__img"
+                 src="https://images.unsplash.com/photo-1535941339077-2dd1c7963098?w=1200&amp;q=80&amp;auto=format&amp;fit=crop"
+                 alt="African elephant on the savanna at golden hour"
+                 loading="lazy" width="1200" height="900" />
           </div>
-        </div>
+          <p class="card__kicker">Adventure · 02</p>
+          <h3 class="card__title">Bucket List Travel Destinations: Your Adventure Awaits!</h3>
+          <div class="card__body">
+            <p>From a Safari in the Serengeti to the Northern Lights in Iceland to a multi-generational trip to the Great Barrier Reef&hellip;Our clients cherish unique experiences and adventures just waiting to be explored. So grab your passport, pack your bags, and get ready to check off your travel dreams!</p>
+          </div>
+        </article>
 
-        <div class="inq-step inq-sent" data-step="3" hidden>
-          <div class="inq-sent__stamp">SENT</div>
-          <p id="inquirySentName">Thanks, friend. Amy will write back within two days, usually sooner.</p>
-          <p class="inq-sent__sub" id="inquirySentEmail">Keep an eye on your inbox.</p>
-        </div>
-      </div>
+        <article class="card reveal">
+          <div class="card__img-wrap">
+            <img class="card__img"
+                 src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1742065174877-7OCBMMV33NZA53X5NGUK/unsplash-image-Ux2le0HiXwE.jpg?format=1200w"
+                 alt="Colonial street in San Miguel de Allende"
+                 loading="lazy" width="1200" height="900" />
+          </div>
+          <p class="card__kicker">Escape · 03</p>
+          <h3 class="card__title">Weekend Getaways</h3>
+          <div class="card__body">
+            <p>A weekend getaway is like a refreshing breeze for mom and dad, a chance to hit the pause button on the hectic symphony of everyday life. Just think of it: the endless to-do lists, the rush of school drop-offs, and the unrelenting cycle of chores. A brief escape offers a playful pause, allowing parents to reconnect, recharge, and rediscover each other amidst the chaos.</p>
+          </div>
+        </article>
 
-      <div class="inq-postcard__foot">
-        <div class="inq-progress">
-          <div class="inq-progress__bar" id="inquiryBar"></div>
-        </div>
-        <div class="inq-nav">
-          <button type="button" class="inq-btn inq-btn--ghost" id="inquiryBack" hidden>&larr; back</button>
-          <button type="button" class="inq-btn inq-btn--primary" id="inquiryNext">Next &rarr;</button>
-        </div>
       </div>
-    </form>
+    </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="pc-foot">
-    <div class="pc-foot__mark">
-      <img src="assets/logo-black.png" alt="Studio SCM" class="scm-logo pc-foot__logo" />
+  <section class="social">
+    <div class="container">
+      <h2 class="social__title reveal">Follow us on social</h2>
+      <div class="social__grid">
+        <figure class="social__card reveal">
+          <div class="social__img-wrap"><img class="social__img" src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1741045265531-P3QNZTARJ4J6D4EBK2OR/unsplash-image-9eNG_3xXSoY.jpg?format=800w" alt="" loading="lazy" width="800" height="800" /></div>
+          <figcaption class="social__caption">#jacksonhole</figcaption>
+        </figure>
+        <figure class="social__card reveal">
+          <div class="social__img-wrap"><img class="social__img" src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1741045296581-FQROM95M05N2TWG8F2K9/unsplash-image-Qsz1hPkPzR8.jpg?format=800w" alt="" loading="lazy" width="800" height="800" /></div>
+          <figcaption class="social__caption">#machupicchu</figcaption>
+        </figure>
+        <figure class="social__card reveal">
+          <div class="social__img-wrap"><img class="social__img" src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1741045351911-PG1CDK80WMHMMXMI58O1/unsplash-image-nf7W_hn6DKQ.jpg?format=800w" alt="" loading="lazy" width="800" height="800" /></div>
+          <figcaption class="social__caption">#serengeti</figcaption>
+        </figure>
+        <figure class="social__card reveal">
+          <div class="social__img-wrap"><img class="social__img" src="https://images.squarespace-cdn.com/content/v1/67c63ab38c69d162787a6a77/1741045392214-0L555DCM1FXVEA2BROFJ/unsplash-image-AH8zKXqFITA.jpg?format=800w" alt="" loading="lazy" width="800" height="800" /></div>
+          <figcaption class="social__caption">#patagonia</figcaption>
+        </figure>
+      </div>
+      <div class="social__cta-row reveal">
+        <a class="btn" href="https://www.instagram.com/_studioscm_" target="_blank" rel="noopener">Instagram</a>
+      </div>
     </div>
-    <div class="pc-foot__cols">
-      <div>
-        <h4>Contact</h4>
+  </section>
+
+  <section class="inquiries" id="inquiries">
+    <div class="container">
+      <div class="inquiries__grid">
+
+        <div class="reveal">
+          <p class="section__kicker">Stay in touch</p>
+          <h2 class="inquiries__heading">Inquiries</h2>
+          <p class="inquiries__body">Interested in working together? Fill out some info and we will be in touch shortly. We can&rsquo;t wait to hear from you!</p>
+          <p class="inquiries__signature">— Amy</p>
+        </div>
+
+        <form class="form reveal" id="inquiryForm" novalidate>
+          <div class="field">
+            <label class="field__label">Name<span class="req">(required)</span></label>
+            <div class="form__row">
+              <input class="field__input" id="firstName" name="first_name" type="text" aria-label="First name" placeholder="First Name" required />
+              <input class="field__input" id="lastName" name="last_name" type="text" aria-label="Last name" placeholder="Last Name" required />
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label" for="email">Email<span class="req">(required)</span></label>
+            <input class="field__input" id="email" name="email" type="email" required />
+          </div>
+          <div class="field">
+            <label class="field__label" for="message">Message<span class="req">(required)</span></label>
+            <textarea class="field__textarea" id="message" name="message" required></textarea>
+          </div>
+          <div class="form__actions">
+            <button class="btn" id="sendBtn" type="submit">Send</button>
+          </div>
+          <div class="form__status" id="formStatus" role="status" aria-live="polite"></div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <p class="cta-banner__line">Ready to plan? Write to <a href="mailto:amy@studioscm.com">amy@studioscm.com</a></p>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__mark">
+        <img class="footer__logo" src="assets/logo-black.png" alt="Studio SCM" width="200" height="120" />
+      </div>
+      <div class="footer__center">
         <a href="mailto:amy@studioscm.com">amy@studioscm.com</a>
+        &nbsp;·&nbsp;
         <a href="https://www.instagram.com/_studioscm_" target="_blank" rel="noopener">@_studioscm_</a>
       </div>
-      <div>
-        <h4>Journeys</h4>
-        <a href="#journeys">Family</a>
-        <a href="#journeys">Bucket list</a>
-        <a href="#journeys">Weekend</a>
-        <a href="#journeys">Multi-gen</a>
-      </div>
-      <div>
-        <h4>Studio</h4>
-        <a href="#about">About Amy</a>
-        <a href="#featured">Featured trip</a>
-        <a href="#inquire">Plan a trip</a>
-      </div>
-      <div>
-        <h4>Fine print</h4>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-        <a href="#">Accessibility</a>
-      </div>
-    </div>
-    <div class="pc-foot__meta">
-      &copy; 2026 Studio SCM. Handmade in Santa Barbara, CA. Trips planned everywhere.
+      <div class="footer__right">© Studio SCM</div>
     </div>
   </footer>
-</div>
 
-<script src="app.js" defer></script>
+<script>
+  // Scroll-reveal
+  (function() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  })();
+
+  // Form submission
+  const form = document.getElementById('inquiryForm');
+  const status = document.getElementById('formStatus');
+  const btn = document.getElementById('sendBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.className = 'form__status';
+    status.textContent = '';
+
+    const data = {};
+    new FormData(form).forEach((v, k) => { data[k] = v.toString().trim(); });
+
+    const required = ['first_name', 'last_name', 'email', 'message'];
+    const missing = required.filter(k => !data[k]);
+    if (missing.length) {
+      status.classList.add('form__status--error');
+      status.textContent = 'Please fill in all required fields.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('/.netlify/functions/submit-classic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Server error');
+      form.reset();
+      status.classList.add('form__status--success');
+      status.textContent = 'Thanks — Amy will be in touch shortly.';
+    } catch (err) {
+      status.classList.add('form__status--error');
+      status.textContent = 'Something went wrong. Please email amy@studioscm.com directly.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send';
+    }
+  });
+</script>
+
 </body>
 </html>
