@@ -244,13 +244,12 @@
 
   /* ---------- Inquiries ---------- */
   .inquiries { padding: 112px 24px; border-top: 1px solid var(--rule); }
-  .inquiries__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
+  .inquiries__content {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
   }
-  .inquiries .section__kicker { text-align: left; margin-bottom: 6px; }
+  .inquiries .section__kicker { margin-bottom: 6px; }
   .inquiries__heading {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
@@ -262,8 +261,8 @@
     font-size: 16px;
     line-height: 1.7;
     color: var(--body);
-    max-width: 380px;
-    margin-bottom: 20px;
+    max-width: 480px;
+    margin: 0 auto 32px;
   }
   .inquiries__signature {
     font-family: 'Caveat', cursive;
@@ -272,80 +271,6 @@
     color: var(--accent);
     margin-top: 28px;
   }
-
-  .form { display: grid; gap: 26px; }
-  .form__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-  }
-  .field { display: flex; flex-direction: column; gap: 8px; }
-  .field__label {
-    font-size: 12px;
-    color: var(--ink);
-    letter-spacing: 0.04em;
-    font-weight: 500;
-  }
-  .field__label .req {
-    color: var(--muted);
-    font-size: 11px;
-    margin-left: 5px;
-    font-style: italic;
-    font-weight: 400;
-  }
-  .field__input,
-  .field__textarea {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--rule-strong);
-    border-radius: 0;
-    padding: 10px 0 12px;
-    color: var(--ink);
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    width: 100%;
-    transition: border-bottom-color 0.2s, border-bottom-width 0.2s;
-    outline: none;
-  }
-  .field__input::placeholder,
-  .field__textarea::placeholder { color: var(--muted); opacity: 0.5; }
-  .field__input:focus,
-  .field__textarea:focus {
-    border-bottom-color: var(--accent);
-    border-bottom-width: 1.5px;
-  }
-  .field__textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
-
-  .form__actions { margin-top: 10px; }
-  .form__status {
-    margin-top: 16px;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--muted);
-    min-height: 1em;
-  }
-  .form__status--error { color: #9a3a2a; }
-  .form__status--success { color: #2a6e3f; }
-
-  /* ---------- Pre-footer CTA banner ---------- */
-  .cta-banner {
-    text-align: center;
-    padding: 64px 24px;
-    border-top: 1px solid var(--rule);
-  }
-  .cta-banner__line {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 28px;
-    color: var(--ink);
-  }
-  .cta-banner__line a {
-    border-bottom: 1px solid var(--rule-strong);
-    padding-bottom: 2px;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .cta-banner__line a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
   /* ---------- Footer ---------- */
   .footer {
@@ -400,12 +325,8 @@
     .social__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .social__title { font-size: 30px; margin-bottom: 32px; }
     .inquiries { padding: 72px 24px; }
-    .inquiries__grid { grid-template-columns: 1fr; gap: 36px; }
     .inquiries__heading { font-size: 50px; }
-    .form__row { grid-template-columns: 1fr; }
     .masthead__logo { height: 56px; }
-    .cta-banner { padding: 48px 24px; }
-    .cta-banner__line { font-size: 22px; }
     .footer__grid { grid-template-columns: 1fr; text-align: center; gap: 18px; }
     .footer__mark { justify-content: center; }
     .footer__right { text-align: center; }
@@ -513,43 +434,14 @@
 
   <section class="inquiries" id="inquiries">
     <div class="container">
-      <div class="inquiries__grid">
-
-        <div class="reveal">
-          <p class="section__kicker">Stay in touch</p>
-          <h2 class="inquiries__heading">Inquiries</h2>
-          <p class="inquiries__body">Interested in working together? Fill out some info and we will be in touch shortly. We can&rsquo;t wait to hear from you!</p>
-          <p class="inquiries__signature">— Amy</p>
-        </div>
-
-        <form class="form reveal" id="inquiryForm" novalidate>
-          <div class="field">
-            <label class="field__label">Name<span class="req">(required)</span></label>
-            <div class="form__row">
-              <input class="field__input" id="firstName" name="first_name" type="text" aria-label="First name" placeholder="First Name" required />
-              <input class="field__input" id="lastName" name="last_name" type="text" aria-label="Last name" placeholder="Last Name" required />
-            </div>
-          </div>
-          <div class="field">
-            <label class="field__label" for="email">Email<span class="req">(required)</span></label>
-            <input class="field__input" id="email" name="email" type="email" required />
-          </div>
-          <div class="field">
-            <label class="field__label" for="message">Message<span class="req">(required)</span></label>
-            <textarea class="field__textarea" id="message" name="message" required></textarea>
-          </div>
-          <div class="form__actions">
-            <button class="btn" id="sendBtn" type="submit">Send</button>
-          </div>
-          <div class="form__status" id="formStatus" role="status" aria-live="polite"></div>
-        </form>
-
+      <div class="inquiries__content reveal">
+        <p class="section__kicker">Stay in touch</p>
+        <h2 class="inquiries__heading">Inquiries</h2>
+        <p class="inquiries__body">Interested in working together? Send me a note. I read every message myself and will be in touch shortly. Can&rsquo;t wait to hear from you!</p>
+        <a class="btn" href="mailto:amy@studioscm.com?subject=Inquiry">Email Amy</a>
+        <p class="inquiries__signature">Amy</p>
       </div>
     </div>
-  </section>
-
-  <section class="cta-banner">
-    <p class="cta-banner__line">Ready to plan? Write to <a href="mailto:amy@studioscm.com">amy@studioscm.com</a></p>
   </section>
 
   <footer class="footer">
@@ -584,48 +476,6 @@
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   })();
 
-  // Form submission
-  const form = document.getElementById('inquiryForm');
-  const status = document.getElementById('formStatus');
-  const btn = document.getElementById('sendBtn');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    status.className = 'form__status';
-    status.textContent = '';
-
-    const data = {};
-    new FormData(form).forEach((v, k) => { data[k] = v.toString().trim(); });
-
-    const required = ['first_name', 'last_name', 'email', 'message'];
-    const missing = required.filter(k => !data[k]);
-    if (missing.length) {
-      status.classList.add('form__status--error');
-      status.textContent = 'Please fill in all required fields.';
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-
-    try {
-      const res = await fetch('/.netlify/functions/submit-classic', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error('Server error');
-      form.reset();
-      status.classList.add('form__status--success');
-      status.textContent = 'Thanks — Amy will be in touch shortly.';
-    } catch (err) {
-      status.classList.add('form__status--error');
-      status.textContent = 'Something went wrong. Please email amy@studioscm.com directly.';
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Send';
-    }
-  });
 </script>
 
 </body>
