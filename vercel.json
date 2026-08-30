@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/clientintake", "destination": "/", "permanent": true },
+    { "source": "/clientintake.html", "destination": "/", "permanent": true }
+  ]
+}

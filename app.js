@@ -133,11 +133,27 @@
         dream: state.data.dream,
         budget: state.data.budget,
       };
+      // Dual-submit during the Netlify → Vercel migration: each host serves
+      // exactly one of these endpoints, so exactly one email is sent either way.
+      // Netlify: form capture on "/" works, /api/inquiry 404s silently.
+      // Vercel: /api/inquiry sends via Resend, "/" post 404s silently.
       fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encode(payload),
-      }).catch(() => { /* silent: Netlify captures on production build */ });
+      }).catch(() => { /* silent */ });
+      fetch("/api/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: state.data.name,
+          email: state.data.email,
+          travelers: state.data.travelers,
+          month: state.data.month,
+          dream: state.data.dream,
+          budget: state.data.budget,
+        }),
+      }).catch(() => { /* silent */ });
     };
 
     const showErr = (step) => {
